@@ -17,11 +17,8 @@ public class AIPlayer extends Player {
     // Получение списка имён из файла
     private ArrayList<String> getListOfNamesFromFile(String filename) {
         ArrayList<String> namesList = new ArrayList<>();
+        InputStream inputStream = openNamesFile(filename);
         try {
-            InputStream inputStream = AIPlayer.class.getClassLoader().getResourceAsStream(filename);
-            if (inputStream == null) {
-                throw new NullPointerException("Ошибка открытия файла");
-            }
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String fileLine;
             while ((fileLine = reader.readLine()) != null) {
@@ -34,6 +31,15 @@ public class AIPlayer extends Player {
             System.out.println("Ошибка чтения файла");
         }
         return namesList;
+    }
+
+    // Открытие файла с именами
+    private InputStream openNamesFile(String filename) {
+        InputStream inputStream = AIPlayer.class.getClassLoader().getResourceAsStream(filename);
+        if (inputStream == null) {
+            throw new NullPointerException("Ошибка открытия файла");
+        }
+        return inputStream;
     }
 
     @Override

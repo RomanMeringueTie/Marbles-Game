@@ -13,20 +13,36 @@ public class Game {
 
     // Проверка, закончилась ли игра
     public boolean isGameEnded() {
-        if (RealPlayer.NumberOfStones == 0 || AIPlayer.NumberOfStones == 0) {
+        if (RealPlayer.NumberOfStones <= 0 || AIPlayer.NumberOfStones <= 0) {
             System.out.printf("%s выиграл!\n", (RealPlayer.NumberOfStones == 0) ? AIPlayer.Name : RealPlayer.Name);
             return true;
         }
         return false;
     }
 
-    // Вывод на экран номера текущего раунда
-    public static void printNumberOfRound(int numberOfRound) {
+    // Проведение одного раунда
+    public void round(int numberOfRound) {
         System.out.printf("Раунд %d!\n", numberOfRound);
+        Player guessingPlayer;
+        Player bettingPlayer;
+        if (numberOfRound % 2 == 1) {
+            guessingPlayer = RealPlayer;
+            bettingPlayer = AIPlayer;
+        }
+        else {
+            guessingPlayer = AIPlayer;
+            bettingPlayer = RealPlayer;
+        }
+        int betterBet = bettingPlayer.getEvenOrOddBet();
+        int guesserBet = guessingPlayer.getBet();
+        boolean guesserGuess = guessingPlayer.getEvenOrOddGuess();
+        getWinner(guesserBet, betterBet, guesserGuess, bettingPlayer, guessingPlayer);
+        bettingPlayer.printInfo();
+        guessingPlayer.printInfo();
     }
 
     // Проверка победителя в текцщем раунде
-    public void getWinner(int bet, int evenOrOddBet, boolean evenOrOddGuess, Player bettingPlayer, Player guessingPlayer) {
+    private void getWinner(int bet, int evenOrOddBet, boolean evenOrOddGuess, Player bettingPlayer, Player guessingPlayer) {
         if (evenOrOddBet % 2 == 0 && !evenOrOddGuess || evenOrOddBet % 2 == 1 && evenOrOddGuess) {
             updateNumberOfStones(bet, guessingPlayer, bettingPlayer);
         }

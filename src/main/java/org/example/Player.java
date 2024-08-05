@@ -4,7 +4,7 @@ package org.example;
 public abstract class Player {
 
     protected String Name = null; // Имя
-    protected int NumberOfStones = 20; // Количество камней
+    protected int NumberOfStones = 10; // Количество камней
     protected int NumberOfWins = 0; // Количество верных угадываний
     protected int NumberOfLosses = 0; // Количество неверных угадываний
 
